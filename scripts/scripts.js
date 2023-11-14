@@ -31,7 +31,7 @@ function getComputerChoice() {
     }
 }
 
-function playRockPaperScissors(playerSelection, computerSelection) {
+function playRockPaperScissors(playerSelection, computerSelection, playerScore, computerScore) {
     switch (playerSelection) {
         case "rock":
             if (computerSelection === "rock") {
@@ -67,3 +67,54 @@ function playRockPaperScissors(playerSelection, computerSelection) {
             }
     }
 }
+
+
+// Game
+function game(){
+    let playerScore = 0;
+    let computerScore = 0;
+    let currentRound = 1;
+    let result;
+
+    // play up to 5 rounds of game, first to 3 wins
+    while (currentRound <= 5 && (playerScore < 3 || computerScore <= 3)) {
+        // play game
+        console.log(currentRound)
+        
+        // result = startNewGame()
+        let playerSelection = '';
+        while (playerSelection === null || !['rock', 'paper', 'scissors'].includes(playerSelection.toLowerCase())) { // while choice not null or in our selection of options
+            playerSelection = prompt("Please make a selection. Your options are Rock, Paper, or Scissors");
+        }
+        // play game
+        let computersChoice = getComputerChoice();
+        result = playRockPaperScissors(playerSelection.toLowerCase(), computersChoice, playerScore, computerScore);
+
+        // increment score for the winner
+        console.log(result)
+        if (result.includes('Win')) {
+            ++playerScore
+        }
+        else if (result.includes("Lose")) {
+            ++computerScore
+        }
+
+        console.log(`player score: ${playerScore}`)
+        console.log(`computer score: ${computerScore}`)
+        // go to next round
+        ++currentRound
+    }
+
+    // reveal the winner
+    if (playerScore > computerScore) {
+        alert(`You Win! You beat the Computer ${playerScore} to ${computerScore}`)
+    } 
+    else if(playerScore < computerScore) {
+        alert(`You Lose! The Computer beat you ${computerScore} to ${playerScore}`)
+    }   
+    else {
+        alert(`Draw! You tied the Computer ${playerScore} to ${computerScore}`)
+    } 
+}
+
+game()
