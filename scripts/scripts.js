@@ -31,90 +31,115 @@ function getComputerChoice() {
     }
 }
 
-function playRockPaperScissors(playerSelection, computerSelection, playerScore, computerScore) {
+function playRockPaperScissors(button) {
+    let computersSelection = getComputerChoice();
+    let playerSelection = button.textContent.toLowerCase();
+
     switch (playerSelection) {
         case "rock":
-            if (computerSelection === "rock") {
+            if (computersSelection === "rock") {
                 return "Draw - You both selected Rock";
             }
-            if (computerSelection === "paper") {
+            if (computersSelection === "paper") {
                 return "You Lose! Paper beats Rock";
             }
-            if (computerSelection === "scissors") {
+            if (computersSelection === "scissors") {
                 return "You Win! Rock beats Scissors";
             }
 
         case "paper":
-            if (computerSelection === "rock") {
+            if (computersSelection === "rock") {
                 return "You Win! Paper beats Rock";
             }
-            if (computerSelection === "paper") {
+            if (computersSelection === "paper") {
                 return "Draw! You both selected Paper";
             }
-            if (computerSelection === "scissors") {
+            if (computersSelection === "scissors") {
                 return "You Lose! Scissors beats Paper";
             }
 
         case "scissors":
-            if (computerSelection === "rock") {
+            if (computersSelection === "rock") {
                 return "You Lose! Rock beats Scissors";
             }
-            if (computerSelection === "paper") {
+            if (computersSelection === "paper") {
                 return "You Win! Scissors beats Paper";
             }
-            if (computerSelection === "scissors") {
+            if (computersSelection === "scissors") {
                 return "Draw! you both selected Scissors";
             }
     }
 }
 
+// function game(){
+//     let playerScore = 0;
+//     let computerScore = 0;
+//     let result;
 
-// Game
-function game(){
-    let playerScore = 0;
-    let computerScore = 0;
-    let currentRound = 1;
-    let result;
+//     // play up to 5 rounds of game, first to 3 wins
+//     // play game
+    
+//     // result = startNewGame()
+//     let playerSelection = '';
+//     while (playerSelection === null || !['rock', 'paper', 'scissors'].includes(playerSelection.toLowerCase())) { // while choice not null or in our selection of options
+//         playerSelection = prompt("Please make a selection. Your options are Rock, Paper, or Scissors");
+//     }
+//     // play game
+//     let computersChoice = getComputerChoice();
+//     result = playRockPaperScissors(playerSelection.toLowerCase(), computersChoice, playerScore, computerScore);
 
-    // play up to 5 rounds of game, first to 3 wins
-    while (currentRound <= 5 && (playerScore < 3 || computerScore <= 3)) {
-        // play game
-        console.log(currentRound)
-        
-        // result = startNewGame()
-        let playerSelection = '';
-        while (playerSelection === null || !['rock', 'paper', 'scissors'].includes(playerSelection.toLowerCase())) { // while choice not null or in our selection of options
-            playerSelection = prompt("Please make a selection. Your options are Rock, Paper, or Scissors");
-        }
-        // play game
-        let computersChoice = getComputerChoice();
-        result = playRockPaperScissors(playerSelection.toLowerCase(), computersChoice, playerScore, computerScore);
+//     // increment score for the winner
+//     console.log(result)
+//     if (result.includes('Win')) {
+//         ++playerScore
+//     }
+//     else if (result.includes("Lose")) {
+//         ++computerScore
+//     }
 
-        // increment score for the winner
-        console.log(result)
-        if (result.includes('Win')) {
-            ++playerScore
-        }
-        else if (result.includes("Lose")) {
-            ++computerScore
-        }
+//     console.log(`player score: ${playerScore}`)
+//     console.log(`computer score: ${computerScore}`)
+//     // go to next round
 
-        console.log(`player score: ${playerScore}`)
-        console.log(`computer score: ${computerScore}`)
-        // go to next round
-        ++currentRound
-    }
 
-    // reveal the winner
-    if (playerScore > computerScore) {
-        alert(`You Win! You beat the Computer ${playerScore} to ${computerScore}`)
-    } 
-    else if(playerScore < computerScore) {
-        alert(`You Lose! The Computer beat you ${computerScore} to ${playerScore}`)
-    }   
-    else {
-        alert(`Draw! You tied the Computer ${playerScore} to ${computerScore}`)
-    } 
-}
+//     // reveal the winner
+//     if (playerScore > computerScore) {
+//         alert(`You Win! You beat the Computer ${playerScore} to ${computerScore}`)
+//     } 
+//     else if(playerScore < computerScore) {
+//         alert(`You Lose! The Computer beat you ${computerScore} to ${playerScore}`)
+//     }   
+//     else {
+//         alert(`Draw! You tied the Computer ${playerScore} to ${computerScore}`)
+//     } 
+// }
 
-game()
+
+let playerScore = 0;
+let computerScore = 0;
+let result = document.createElement("p");
+
+
+// add event listeners to the buttons
+let rockButton = document.querySelector("#rock-button");
+let paperButton = document.querySelector("#paper-button");
+let scissorsButton = document.querySelector("#scissors-button");
+// player selection function
+
+let resultsDiv = document.querySelector("#results");
+
+
+
+// event listeners  need to modify the dom with the results
+rockButton.addEventListener('click', function () {
+    result.textContent = playRockPaperScissors(rockButton);
+    resultsDiv.appendChild(result);
+});
+paperButton.addEventListener('click', function () {
+    result.textContent = playRockPaperScissors(paperButton);
+    resultsDiv.appendChild(result);
+});
+scissorsButton.addEventListener('click', function () {
+    result.textContent = playRockPaperScissors(scissorsButton);
+    resultsDiv.appendChild(result);
+});
