@@ -31,42 +31,39 @@ function getComputerChoice() {
     }
 }
 
-function playRockPaperScissors(button) {
-    let computersSelection = getComputerChoice();
-    let playerSelection = button.textContent.toLowerCase();
-
+function playRockPaperScissors(playerSelection, computersSelection) {
     switch (playerSelection) {
         case "rock":
             if (computersSelection === "rock") {
-                return "Draw - You both selected Rock!";
+                return ["DRAW", "Draw - You both selected Rock."];
             }
             if (computersSelection === "paper") {
-                return "You Lose! Paper beats Rock!";
+                return ["LOSE", "You Lose! Paper beats Rock."];
             }
             if (computersSelection === "scissors") {
-                return "You Win! Rock beats Scissors!";
+                return ["WIN", "You Win! Rock beats Scissors."];
             }
 
         case "paper":
             if (computersSelection === "rock") {
-                return "You Win! Paper beats Rock!";
+                return ["WIN", "You Win! Paper beats Rock."];
             }
             if (computersSelection === "paper") {
-                return "Draw! You both selected Paper!";
+                return ["DRAW", "Draw - You both selected Paper."];
             }
             if (computersSelection === "scissors") {
-                return "You Lose! Scissors beats Paper!";
+                return ["LOSE", "You Lose! Scissors beats Paper."];
             }
 
         case "scissors":
             if (computersSelection === "rock") {
-                return "You Lose! Rock beats Scissors!";
+                return ["LOSE", "You Lose! Rock beats Scissors."];
             }
             if (computersSelection === "paper") {
-                return "You Win! Scissors beats Paper!";
+                return ["WIN", "You Win! Scissors beats Paper."];
             }
             if (computersSelection === "scissors") {
-                return "Draw! you both selected Scissors!";
+                return ["DRAW", "Draw - You both selected Scissors."];
             }
     }
 }
@@ -92,7 +89,7 @@ let resultsDiv = document.querySelector("#results");
 let playAgainDiv = document.querySelector("#playAgain");
 
 // variable to hold result of each round.
-let gameResults;
+let gameResult;
 
 
 // new event listener - event delegation
@@ -114,33 +111,63 @@ document.addEventListener('click', function (event) {
 }, false);
 
 
+function diplayResult (gameResultText){
+    // set result text content
+    result.textContent = gameResultText;
+    resultsDiv.appendChild(result);
+}
+
+function incrementScore(roundWinner){
+    if (roundWinner === "player") {
+        int_playerScore.textContent = parseInt(int_playerScore.textContent) + 1;
+    }
+    else {
+        int_computersScore.textContent = parseInt(int_computersScore.textContent) + 1;
+    }
+}
+
+
 // function definitions
 
 function playGame(selectedButton){
-    gameResults = playRockPaperScissors(selectedButton);
-
-    // set result text content
-    result.textContent = gameResults;
-
-    // increment score
-    incrementScore(gameResults, int_playerScore, int_computersScore);
-
-    resultsDiv.appendChild(result);
-    
+    // take players selection
+    let playerSelection = selectedButton.textContent.toLowerCase();
+    // make computers selection
+    let computersSelection = getComputerChoice();
+    // pass these into game function that will compare them and return the result (Win, Lose, Draw)
+    let gameResult = playRockPaperScissors(playerSelection, computersSelection)
+        // this function will compare the selections, 
+        //increment the score according and update page
+    switch (gameResult[0]){
+        case "WIN":
+            diplayResult(gameResult[1]);
+            incrementScore("player");
+            break;
+        case "LOSE":
+            diplayResult(gameResult[1]);
+            incrementScore("computer");
+            break;
+        case "DRAW":
+            diplayResult(gameResult[1]);
+            break;
+    }     
     // increment round
     int_currentRound.textContent = parseInt(int_currentRound.textContent) + 1;
+    // after incrementing the score check score to see if either player has reached 5
+    if (parseInt(int_playerScore.innerHTML) === 5) {
+        announceWinner("player");
+        // ask if player wants to play again (generate new button)
+        // if player clicks, play again, reset the score
+    }
 
+    if (parseInt(int_computersScore.innerHTML) === 5) {
+        announceWinner("computer");
+        // ask if player wants to play again (generate new button)
+        // if player clicks, play again, reset the score
+    }
 }
 
 
-function incrementScore(gameResults, playerScore, computerScore){
-    if (gameResults.includes('Win')) {
-        playerScore.textContent = parseInt(playerScore.textContent) + 1;
-    }
-    else if (gameResults.includes("Lose")) {
-        computerScore.textContent = parseInt(computerScore.textContent) + 1;
-    }
-}
 
 let winner = document.createElement('p');
 
@@ -154,29 +181,5 @@ function announceWinner() {
         resultsDiv.appendChild(winner);
     }   
 }
-
-// function playAgain() {
-//     // this function will generate a play a again button, add it to the DOM, then when clicked will reset all of the values and play the game again.
-
-
-//     game();
-// }
-
-// ------------- Game Starts Here ------------- //
-
-while (!int_playerScore.innerHTML === "5" || !int_computersScore.innerHTML === "5"){
-    if 
-}
-
-if (parseInt(int_playerScore.innerHTML) === 5) {
-    announceWinner("win");
-}
-else if (parseInt(int_computersScore.innerHTML) === 5) {
-    announceWinner("lose");
-}
-
-
-
-
 
 
