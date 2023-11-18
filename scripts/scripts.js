@@ -38,108 +38,145 @@ function playRockPaperScissors(button) {
     switch (playerSelection) {
         case "rock":
             if (computersSelection === "rock") {
-                return "Draw - You both selected Rock";
+                return "Draw - You both selected Rock!";
             }
             if (computersSelection === "paper") {
-                return "You Lose! Paper beats Rock";
+                return "You Lose! Paper beats Rock!";
             }
             if (computersSelection === "scissors") {
-                return "You Win! Rock beats Scissors";
+                return "You Win! Rock beats Scissors!";
             }
 
         case "paper":
             if (computersSelection === "rock") {
-                return "You Win! Paper beats Rock";
+                return "You Win! Paper beats Rock!";
             }
             if (computersSelection === "paper") {
-                return "Draw! You both selected Paper";
+                return "Draw! You both selected Paper!";
             }
             if (computersSelection === "scissors") {
-                return "You Lose! Scissors beats Paper";
+                return "You Lose! Scissors beats Paper!";
             }
 
         case "scissors":
             if (computersSelection === "rock") {
-                return "You Lose! Rock beats Scissors";
+                return "You Lose! Rock beats Scissors!";
             }
             if (computersSelection === "paper") {
-                return "You Win! Scissors beats Paper";
+                return "You Win! Scissors beats Paper!";
             }
             if (computersSelection === "scissors") {
-                return "Draw! you both selected Scissors";
+                return "Draw! you both selected Scissors!";
             }
     }
 }
 
-// function game(){
-//     let playerScore = 0;
-//     let computerScore = 0;
-//     let result;
-
-//     // play up to 5 rounds of game, first to 3 wins
-//     // play game
-    
-//     // result = startNewGame()
-//     let playerSelection = '';
-//     while (playerSelection === null || !['rock', 'paper', 'scissors'].includes(playerSelection.toLowerCase())) { // while choice not null or in our selection of options
-//         playerSelection = prompt("Please make a selection. Your options are Rock, Paper, or Scissors");
-//     }
-//     // play game
-//     let computersChoice = getComputerChoice();
-//     result = playRockPaperScissors(playerSelection.toLowerCase(), computersChoice, playerScore, computerScore);
-
-//     // increment score for the winner
-//     console.log(result)
-//     if (result.includes('Win')) {
-//         ++playerScore
-//     }
-//     else if (result.includes("Lose")) {
-//         ++computerScore
-//     }
-
-//     console.log(`player score: ${playerScore}`)
-//     console.log(`computer score: ${computerScore}`)
-//     // go to next round
-
-
-//     // reveal the winner
-//     if (playerScore > computerScore) {
-//         alert(`You Win! You beat the Computer ${playerScore} to ${computerScore}`)
-//     } 
-//     else if(playerScore < computerScore) {
-//         alert(`You Lose! The Computer beat you ${computerScore} to ${playerScore}`)
-//     }   
-//     else {
-//         alert(`Draw! You tied the Computer ${playerScore} to ${computerScore}`)
-//     } 
-// }
-
-
+// variable definitions
 let playerScore = 0;
 let computerScore = 0;
+
+let rockButton = document.querySelector("#rockButton");
+let paperButton = document.querySelector("#paperButton");
+let scissorsButton = document.querySelector("#scissorsButton");
+
+let scoreDiv = document.querySelector("#score");
+let int_playerScore = document.querySelector("#playerScore");
+let int_computersScore = document.querySelector("#computersScore");
+let int_currentRound = document.querySelector("#currentRound");
+
+
 let result = document.createElement("p");
-
-
-// add event listeners to the buttons
-let rockButton = document.querySelector("#rock-button");
-let paperButton = document.querySelector("#paper-button");
-let scissorsButton = document.querySelector("#scissors-button");
-// player selection function
 
 let resultsDiv = document.querySelector("#results");
 
+let playAgainDiv = document.querySelector("#playAgain");
+
+// variable to hold result of each round.
+let gameResults;
 
 
-// event listeners  need to modify the dom with the results
-rockButton.addEventListener('click', function () {
-    result.textContent = playRockPaperScissors(rockButton);
+// new event listener - event delegation
+
+document.addEventListener('click', function (event) {
+
+	if (event.target.matches("#rockButton")) {
+		playGame(rockButton)
+	}
+
+    if (event.target.matches("#paperButton")) {
+		playGame(paperButton)
+	}
+
+    if (event.target.matches("#scissorsButton")) {
+		playGame(scissorsButton)
+	}
+
+}, false);
+
+
+// function definitions
+
+function playGame(selectedButton){
+    gameResults = playRockPaperScissors(selectedButton);
+
+    // set result text content
+    result.textContent = gameResults;
+
+    // increment score
+    incrementScore(gameResults, int_playerScore, int_computersScore);
+
     resultsDiv.appendChild(result);
-});
-paperButton.addEventListener('click', function () {
-    result.textContent = playRockPaperScissors(paperButton);
-    resultsDiv.appendChild(result);
-});
-scissorsButton.addEventListener('click', function () {
-    result.textContent = playRockPaperScissors(scissorsButton);
-    resultsDiv.appendChild(result);
-});
+    
+    // increment round
+    int_currentRound.textContent = parseInt(int_currentRound.textContent) + 1;
+
+}
+
+
+function incrementScore(gameResults, playerScore, computerScore){
+    if (gameResults.includes('Win')) {
+        playerScore.textContent = parseInt(playerScore.textContent) + 1;
+    }
+    else if (gameResults.includes("Lose")) {
+        computerScore.textContent = parseInt(computerScore.textContent) + 1;
+    }
+}
+
+let winner = document.createElement('p');
+
+function announceWinner() {
+    if (parseInt(int_playerScore.textContent) > parseInt(int_computersScore.textContent)) {
+        winner.textContent = `You Win! You beat the Computer ${int_playerScore.textContent} to ${int_computersScore.textContent}`
+        resultsDiv.appendChild(winner);
+    } 
+    else if(parseInt(int_playerScore.textContent) < parseInt(int_computersScore.textContent)) {
+        winner.textContent = `You Lose! The Computer beat you ${int_computersScore.textContent} to ${int_playerScore.textContent}`
+        resultsDiv.appendChild(winner);
+    }   
+}
+
+// function playAgain() {
+//     // this function will generate a play a again button, add it to the DOM, then when clicked will reset all of the values and play the game again.
+
+
+//     game();
+// }
+
+// ------------- Game Starts Here ------------- //
+
+while (!int_playerScore.innerHTML === "5" || !int_computersScore.innerHTML === "5"){
+    if 
+}
+
+if (parseInt(int_playerScore.innerHTML) === 5) {
+    announceWinner("win");
+}
+else if (parseInt(int_computersScore.innerHTML) === 5) {
+    announceWinner("lose");
+}
+
+
+
+
+
+
