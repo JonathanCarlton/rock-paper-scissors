@@ -71,6 +71,7 @@ function playRockPaperScissors(playerSelection, computersSelection) {
 // variable definitions
 let playerScore = 0;
 let computerScore = 0;
+let gameResult;
 
 let rockButton = document.querySelector("#rockButton");
 let paperButton = document.querySelector("#paperButton");
@@ -81,19 +82,14 @@ let int_playerScore = document.querySelector("#playerScore");
 let int_computersScore = document.querySelector("#computersScore");
 let int_currentRound = document.querySelector("#currentRound");
 
-
-let result = document.createElement("p");
-
 let resultsDiv = document.querySelector("#results");
-
 let playAgainDiv = document.querySelector("#playAgain");
 
-// variable to hold result of each round.
-let gameResult;
+let winner = document.createElement('p');
+let result = document.createElement("p");
 
 
 // new event listener - event delegation
-
 document.addEventListener('click', function (event) {
 
 	if (event.target.matches("#rockButton")) {
@@ -110,7 +106,7 @@ document.addEventListener('click', function (event) {
 
 }, false);
 
-
+// function definitions
 function diplayResult (gameResultText){
     // set result text content
     result.textContent = gameResultText;
@@ -126,8 +122,16 @@ function incrementScore(roundWinner){
     }
 }
 
-
-// function definitions
+function announceWinner() {
+    if (parseInt(int_playerScore.textContent) > parseInt(int_computersScore.textContent)) {
+        winner.textContent = `You Win! You beat the Computer ${int_playerScore.textContent} to ${int_computersScore.textContent}`
+        resultsDiv.appendChild(winner);
+    } 
+    else if(parseInt(int_playerScore.textContent) < parseInt(int_computersScore.textContent)) {
+        winner.textContent = `You Lose! The Computer beat you ${int_computersScore.textContent} to ${int_playerScore.textContent}`
+        resultsDiv.appendChild(winner);
+    }   
+}
 
 function playGame(selectedButton){
     // take players selection
@@ -169,17 +173,8 @@ function playGame(selectedButton){
 
 
 
-let winner = document.createElement('p');
 
-function announceWinner() {
-    if (parseInt(int_playerScore.textContent) > parseInt(int_computersScore.textContent)) {
-        winner.textContent = `You Win! You beat the Computer ${int_playerScore.textContent} to ${int_computersScore.textContent}`
-        resultsDiv.appendChild(winner);
-    } 
-    else if(parseInt(int_playerScore.textContent) < parseInt(int_computersScore.textContent)) {
-        winner.textContent = `You Lose! The Computer beat you ${int_computersScore.textContent} to ${int_playerScore.textContent}`
-        resultsDiv.appendChild(winner);
-    }   
-}
+
+
 
 
