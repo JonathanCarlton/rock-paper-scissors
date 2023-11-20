@@ -3,7 +3,7 @@
 // let playerScore = 0;
 // let computerScore = 0;
 let gameResult;
-
+let gameOver = false;
 let rockButton = document.querySelector("#rockButton");
 let paperButton = document.querySelector("#paperButton");
 let scissorsButton = document.querySelector("#scissorsButton");
@@ -18,9 +18,9 @@ let playAgainDiv = document.querySelector("#playAgain");
 
 let winner = document.createElement('p');
 let result = document.createElement("p");
-let playAgainButton = document.createElement("button");
-playAgainButton.textContent = "Play Again?";
-playAgainButton.id = "playAgainBtn";
+// let playAgainButton = document.createElement("button");
+// playAgainButton.textContent = "Play Again?";
+// playAgainButton.id = "playAgainBtn";
 
 document.addEventListener('click', function (event) {
 
@@ -44,7 +44,7 @@ document.addEventListener('click', function (event) {
 
         resultsDiv.removeChild(result);
         resultsDiv.removeChild(winner);
-        playAgainDiv.removeChild(playAgainButton);
+        playAgainDiv.classList.add(".hidden");
     }
 
 
@@ -153,16 +153,18 @@ function playGame(selectedButton){
 
     if (parseInt(int_playerScore.innerHTML) === 5) {
         announceWinner("player");
-        gameOver = True;
+        gameOver = true;
+        // playAgainDiv.classList.remove("hidden");
     }
 
     if (parseInt(int_computersScore.innerHTML) === 5) {
         announceWinner("computer");
-        gameOver = True;
+        gameOver = true;
+        // playAgainDiv.classList.remove("hidden");
     }
 
     if (gameOver){
-        playAgainDiv.appendChild(playAgainButton);
+        playAgainDiv.classList.remove("hidden");
     }
 }
 
