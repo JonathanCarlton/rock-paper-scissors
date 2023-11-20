@@ -1,3 +1,25 @@
 .hidden {
     display: none;
 }
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.title {
+
+}
+
+.game {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.scoreboard {
+    display: flex;
+    flex-direction: column;
+}
+

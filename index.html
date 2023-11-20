@@ -6,21 +6,36 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div id="main-content">
-            <div id="buttons">
-                <button id="rockButton">Rock</button>
-                <button id="paperButton">Paper</button>
-                <button id="scissorsButton">Scissors</button>
+        <div class="main-content">
+            <div class="title">
+                <h1>Let's Play Rock Paper Scissors!</h1>
+                <p>First to score five points is the winner.</p>
             </div>
-            <div id="score">
-                <p id="playerScore">0</p>
-                <p id="computersScore">0</p>
-                <p id="currentRound">0</p>
+            <div class="game">
+                <div class="buttons">
+                    <p>Make Your Selection</p>
+                    <div>
+                        <button id="rockButton">Rock</button>
+                        <button id="paperButton">Paper</button>
+                        <button id="scissorsButton">Scissors</button>
+                    </div>
+                </div>
+                <div class="scoreboard">
+                    <div>
+                        <p>Scoreboard</p>
+                    </div>
+                    <div>
+                        <p>Player's Score: <span id="playerScore">0</span></p>
+                        <p>Computer's Score: <span id="computersScore">0</span></p>
+                        <p>Number of Rounds Played: <span id="currentRound">0</span></p>
+                    </div>
+                </div>
             </div>
-            <div id="results">
+
+            <div class="results">
 
             </div>
-            <div id="playAgain" class="hidden">
+            <div class="playAgain hidden">
                 <button class="button" id="playAgainBtn"> Play Again?</button>
             </div>
         </div>

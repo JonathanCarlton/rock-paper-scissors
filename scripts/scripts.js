@@ -8,19 +8,17 @@ let rockButton = document.querySelector("#rockButton");
 let paperButton = document.querySelector("#paperButton");
 let scissorsButton = document.querySelector("#scissorsButton");
 
-let scoreDiv = document.querySelector("#score");
+let scoreDiv = document.querySelector(".scoreboard");
 let int_playerScore = document.querySelector("#playerScore");
 let int_computersScore = document.querySelector("#computersScore");
 let int_currentRound = document.querySelector("#currentRound");
 
-let resultsDiv = document.querySelector("#results");
-let playAgainDiv = document.querySelector("#playAgain");
+let resultsDiv = document.querySelector(".results");
+let playAgainDiv = document.querySelector(".playAgain");
 
 let winner = document.createElement('p');
 let result = document.createElement("p");
-// let playAgainButton = document.createElement("button");
-// playAgainButton.textContent = "Play Again?";
-// playAgainButton.id = "playAgainBtn";
+let title = document.createElement("p");
 
 document.addEventListener('click', function (event) {
 
@@ -43,8 +41,10 @@ document.addEventListener('click', function (event) {
         int_currentRound.textContent = "0"; 
 
         resultsDiv.removeChild(result);
-        resultsDiv.removeChild(winner);
-        playAgainDiv.classList.add(".hidden");
+        
+        playAgainDiv.removeChild(winner);
+        playAgainDiv.removeChild(title);
+        playAgainDiv.classList.add("hidden");
     }
 
 
@@ -121,14 +121,22 @@ function incrementScore(roundWinner){
 
 function announceWinner() {
     if (parseInt(int_playerScore.textContent) > parseInt(int_computersScore.textContent)) {
-        winner.textContent = `You Win! You beat the Computer ${int_playerScore.textContent} to ${int_computersScore.textContent}`
-        resultsDiv.appendChild(winner);
+        winner.textContent = `You beat the Computer ${int_playerScore.textContent} to ${int_computersScore.textContent}`
+        playAgainDiv.insertBefore(winner, playAgainDiv.firstChild);
         
     } 
     else if(parseInt(int_playerScore.textContent) < parseInt(int_computersScore.textContent)) {
-        winner.textContent = `You Lose! The Computer beat you ${int_computersScore.textContent} to ${int_playerScore.textContent}`
-        resultsDiv.appendChild(winner);
+        winner.textContent = `The Computer beat you ${int_computersScore.textContent} to ${int_playerScore.textContent}`
+        playAgainDiv.insertBefore(winner, playAgainDiv.firstChild);
     }   
+}
+
+function playAgainScreen(text, winningPlayer){
+    announceWinner(winningPlayer);
+    title.textContent = text;
+    playAgainDiv.insertBefore(title, playAgainDiv.firstChild)
+    playAgainDiv.classList.remove("hidden");
+    
 }
 
 function playGame(selectedButton){
@@ -152,19 +160,11 @@ function playGame(selectedButton){
     int_currentRound.textContent = parseInt(int_currentRound.textContent) + 1;
 
     if (parseInt(int_playerScore.innerHTML) === 5) {
-        announceWinner("player");
-        gameOver = true;
-        // playAgainDiv.classList.remove("hidden");
+        playAgainScreen("Winner!", "player");
     }
 
     if (parseInt(int_computersScore.innerHTML) === 5) {
-        announceWinner("computer");
-        gameOver = true;
-        // playAgainDiv.classList.remove("hidden");
-    }
-
-    if (gameOver){
-        playAgainDiv.classList.remove("hidden");
+        playAgainScreen("Game Over.", "computer");
     }
 }
 
