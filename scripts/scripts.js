@@ -1,19 +1,56 @@
-// need function to select the computers choice
-// this need to be a randomized 1 in 3 chance to select either Rock (1) Paper (2) or Scissors (3)
-// we can use a random number generator and a swich case statement to assign each of the values
+// Variables
 
-// need a function to get the users input. 
-// user will be prompted to enter their selection. Either Rock (1), Paper (2), or Scissors (3).
-// this will need to account for both lowercase and uppercase characters
+// let playerScore = 0;
+// let computerScore = 0;
+let gameResult;
+let gameOver = false;
+let rockButton = document.querySelector("#rockButton");
+let paperButton = document.querySelector("#paperButton");
+let scissorsButton = document.querySelector("#scissorsButton");
 
-// with the computers choice selected and the players choise selected, we need to compare the two to determine which one is the winner
-// the rules are, Rock beats Scissors, Scissors beats Paper, and Paper beats Rock.
-// in the event that both players select the same choice it will be a draw and there will be no winner.
+let scoreDiv = document.querySelector(".scoreboard");
+let int_playerScore = document.querySelector("#playerScore");
+let int_computersScore = document.querySelector("#computersScore");
+let int_currentRound = document.querySelector("#currentRound");
 
-// add a button allowing the player to play again and choose a new selection. This will also trigger the computer to roll for a new selection.
+let resultsDiv = document.querySelector(".results");
+let playAgainDiv = document.querySelector(".playAgain");
 
-// Extra: Could include a tally system, that could be used to keep track of the number of wins. ex best 2 of 3, best 3 of 5 etc.
-// Would also need a reset button to reset the current score (or reset on page refresh)
+let winner = document.createElement('p');
+let result = document.createElement("p");
+let title = document.createElement("p");
+
+document.addEventListener('click', function (event) {
+
+	if (event.target.matches("#rockButton")) {
+		playGame(rockButton)
+	}
+
+    if (event.target.matches("#paperButton")) {
+		playGame(paperButton)
+	}
+
+    if (event.target.matches("#scissorsButton")) {
+		playGame(scissorsButton)
+	}
+
+    if (event.target.matches("#playAgainBtn")) {
+        gameOver = false;
+        int_playerScore.textContent = "0";     
+        int_computersScore.textContent = "0";   
+        int_currentRound.textContent = "0"; 
+
+        resultsDiv.removeChild(result);
+        
+        playAgainDiv.removeChild(winner);
+        playAgainDiv.removeChild(title);
+        playAgainDiv.classList.add("hidden");
+    }
+
+
+}, false);
+
+// functions
 
 function getRandomPositiveInt(max){
     return Math.floor(Math.random() * max) + 1;
@@ -31,90 +68,110 @@ function getComputerChoice() {
     }
 }
 
-function playRockPaperScissors(playerSelection, computerSelection, playerScore, computerScore) {
+function playRockPaperScissors(playerSelection, computersSelection) {
     switch (playerSelection) {
         case "rock":
-            if (computerSelection === "rock") {
-                return "Draw - You both selected Rock";
+            if (computersSelection === "rock") {
+                return ["DRAW", "Draw - You both selected Rock."];
             }
-            if (computerSelection === "paper") {
-                return "You Lose! Paper beats Rock";
+            if (computersSelection === "paper") {
+                return ["LOSE", "You Lose! Paper beats Rock."];
             }
-            if (computerSelection === "scissors") {
-                return "You Win! Rock beats Scissors";
+            if (computersSelection === "scissors") {
+                return ["WIN", "You Win! Rock beats Scissors."];
             }
 
         case "paper":
-            if (computerSelection === "rock") {
-                return "You Win! Paper beats Rock";
+            if (computersSelection === "rock") {
+                return ["WIN", "You Win! Paper beats Rock."];
             }
-            if (computerSelection === "paper") {
-                return "Draw! You both selected Paper";
+            if (computersSelection === "paper") {
+                return ["DRAW", "Draw - You both selected Paper."];
             }
-            if (computerSelection === "scissors") {
-                return "You Lose! Scissors beats Paper";
+            if (computersSelection === "scissors") {
+                return ["LOSE", "You Lose! Scissors beats Paper."];
             }
 
         case "scissors":
-            if (computerSelection === "rock") {
-                return "You Lose! Rock beats Scissors";
+            if (computersSelection === "rock") {
+                return ["LOSE", "You Lose! Rock beats Scissors."];
             }
-            if (computerSelection === "paper") {
-                return "You Win! Scissors beats Paper";
+            if (computersSelection === "paper") {
+                return ["WIN", "You Win! Scissors beats Paper."];
             }
-            if (computerSelection === "scissors") {
-                return "Draw! you both selected Scissors";
+            if (computersSelection === "scissors") {
+                return ["DRAW", "Draw - You both selected Scissors."];
             }
     }
 }
 
+function diplayResult (gameResultText){
+    result.textContent = gameResultText;
+    resultsDiv.appendChild(result);
+}
 
-// Game
-function game(){
-    let playerScore = 0;
-    let computerScore = 0;
-    let currentRound = 1;
-    let result;
-
-    // play up to 5 rounds of game, first to 3 wins
-    while (currentRound <= 5 && (playerScore < 3 || computerScore <= 3)) {
-        // play game
-        console.log(currentRound)
-        
-        // result = startNewGame()
-        let playerSelection = '';
-        while (playerSelection === null || !['rock', 'paper', 'scissors'].includes(playerSelection.toLowerCase())) { // while choice not null or in our selection of options
-            playerSelection = prompt("Please make a selection. Your options are Rock, Paper, or Scissors");
-        }
-        // play game
-        let computersChoice = getComputerChoice();
-        result = playRockPaperScissors(playerSelection.toLowerCase(), computersChoice, playerScore, computerScore);
-
-        // increment score for the winner
-        console.log(result)
-        if (result.includes('Win')) {
-            ++playerScore
-        }
-        else if (result.includes("Lose")) {
-            ++computerScore
-        }
-
-        console.log(`player score: ${playerScore}`)
-        console.log(`computer score: ${computerScore}`)
-        // go to next round
-        ++currentRound
+function incrementScore(roundWinner){
+    if (roundWinner === "player") {
+        int_playerScore.textContent = parseInt(int_playerScore.textContent) + 1;
     }
-
-    // reveal the winner
-    if (playerScore > computerScore) {
-        alert(`You Win! You beat the Computer ${playerScore} to ${computerScore}`)
-    } 
-    else if(playerScore < computerScore) {
-        alert(`You Lose! The Computer beat you ${computerScore} to ${playerScore}`)
-    }   
     else {
-        alert(`Draw! You tied the Computer ${playerScore} to ${computerScore}`)
-    } 
+        int_computersScore.textContent = parseInt(int_computersScore.textContent) + 1;
+    }
 }
 
-game()
+function announceWinner() {
+    if (parseInt(int_playerScore.textContent) > parseInt(int_computersScore.textContent)) {
+        winner.textContent = `You beat the Computer ${int_playerScore.textContent} to ${int_computersScore.textContent}`
+        playAgainDiv.insertBefore(winner, playAgainDiv.firstChild);
+        
+    } 
+    else if(parseInt(int_playerScore.textContent) < parseInt(int_computersScore.textContent)) {
+        winner.textContent = `The Computer beat you ${int_computersScore.textContent} to ${int_playerScore.textContent}`
+        playAgainDiv.insertBefore(winner, playAgainDiv.firstChild);
+    }   
+}
+
+function playAgainScreen(text, winningPlayer){
+    announceWinner(winningPlayer);
+    title.textContent = text;
+    playAgainDiv.insertBefore(title, playAgainDiv.firstChild)
+    playAgainDiv.classList.remove("hidden");
+    
+}
+
+function playGame(selectedButton){
+    let playerSelection = selectedButton.textContent.toLowerCase();
+    let computersSelection = getComputerChoice();
+    let gameResult = playRockPaperScissors(playerSelection, computersSelection)
+    switch (gameResult[0]){
+        case "WIN":
+            diplayResult(gameResult[1]);
+            incrementScore("player");
+            break;
+        case "LOSE":
+            diplayResult(gameResult[1]);
+            incrementScore("computer");
+            break;
+        case "DRAW":
+            diplayResult(gameResult[1]);
+            break;
+    }     
+
+    int_currentRound.textContent = parseInt(int_currentRound.textContent) + 1;
+
+    if (parseInt(int_playerScore.innerHTML) === 5) {
+        playAgainScreen("Winner!", "player");
+    }
+
+    if (parseInt(int_computersScore.innerHTML) === 5) {
+        playAgainScreen("Game Over.", "computer");
+    }
+}
+
+
+
+
+
+
+
+
